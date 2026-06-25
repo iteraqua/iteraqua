@@ -1,6 +1,6 @@
 ---
 import type { Language } from '@/i18n/utils';
-import { t, useTranslatedPath, getRouteFromUrl } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import MobileMenu from './MobileMenu.astro';
 
@@ -20,6 +20,8 @@ const services = [
   { label: t('nav.services_hydraulic_infrastructure', lang), href: translatePath('services.hydraulicInfrastructure') },
   { label: t('nav.services_underwater_inspections', lang), href: translatePath('services.underwaterInspections') },
 ];
+
+const servicesMenuId = 'desktop-services-menu';
 
 const navItems = [
   { label: t('nav.home', lang), href: translatePath('home') },
@@ -46,10 +48,14 @@ const navItems = [
 
       <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
         {navItems.map((item) => (
-          <div class="relative group">
+          <div class="relative group" data-header-dropdown={item.children ? true : undefined}>
             <a
               href={item.href}
-              class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-navy-900 rounded-md transition-colors"
+              class="px-3 py-2 text-sm font-medium text-slate-700 hover:text-navy-900 focus:text-navy-900 rounded-md transition-colors"
+              aria-haspopup={item.children ? 'true' : undefined}
+              aria-expanded={item.children ? 'false' : undefined}
+              aria-controls={item.children ? servicesMenuId : undefined}
+              data-header-dropdown-trigger={item.children ? true : undefined}
             >
               {item.label}
               {item.children && (
@@ -59,12 +65,16 @@ const navItems = [
               )}
             </a>
             {item.children && (
-              <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <div class="bg-white rounded-lg shadow-lg border border-slate-200 py-2 min-w-[260px]">
+              <div
+                id={servicesMenuId}
+                class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50"
+              >
+                <div class="bg-white rounded-lg shadow-lg border border-slate-200 py-2 min-w-[260px]" role="menu" aria-label={item.label}>
                   {item.children.map((child) => (
                     <a
                       href={child.href}
-                      class="block px-4 py-2 text-sm text-slate-700 hover:text-navy-900 hover:bg-slate-50 transition-colors"
+                      class="block px-4 py-2 text-sm text-slate-700 hover:text-navy-900 hover:bg-slate-50 focus:text-navy-900 focus:bg-slate-50 transition-colors"
+                      role="menuitem"
                     >
                       {child.label}
                     </a>
@@ -89,3 +99,28 @@ const navItems = [
     </div>
   </div>
 </header>
+
+
+<script>
+  const headerDropdowns = document.querySelectorAll('[data-header-dropdown]');
+
+  headerDropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector('[data-header-dropdown-trigger]');
+
+    if (!(trigger instanceof HTMLElement)) return;
+
+    const setExpanded = (isExpanded: boolean) => {
+      trigger.setAttribute('aria-expanded', String(isExpanded));
+    };
+
+    dropdown.addEventListener('mouseenter', () => setExpanded(true));
+    dropdown.addEventListener('mouseleave', () => setExpanded(false));
+    dropdown.addEventListener('focusin', () => setExpanded(true));
+    dropdown.addEventListener('focusout', (event) => {
+      const nextTarget = event.relatedTarget;
+      if (!(nextTarget instanceof Node) || !dropdown.contains(nextTarget)) {
+        setExpanded(false);
+      }
+    });
+  });
+</script>
