@@ -15,7 +15,7 @@ const projects = [
     categoryKey: 'featured_projects.project_1_category',
     locationKey: 'featured_projects.project_1_location',
     descKey: 'featured_projects.project_1_desc',
-    slug: '/proyectos/ampliacion-muelle-sur',
+    slug: 'ampliacion-muelle-sur',
     image: '/images/projects/muelle-sur.jpg',
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     categoryKey: 'featured_projects.project_2_category',
     locationKey: 'featured_projects.project_2_location',
     descKey: 'featured_projects.project_2_desc',
-    slug: '/proyectos/inspeccion-subacuatica-dique',
+    slug: 'inspeccion-subacuatica-dique',
     image: '/images/projects/inspeccion-dique.jpg',
   },
   {
@@ -31,7 +31,7 @@ const projects = [
     categoryKey: 'featured_projects.project_3_category',
     locationKey: 'featured_projects.project_3_location',
     descKey: 'featured_projects.project_3_desc',
-    slug: '/proyectos/regeneracion-playa-levante',
+    slug: 'regeneracion-playa-levante',
     image: '/images/projects/playa-levante.jpg',
   },
 ];
@@ -61,7 +61,7 @@ const projects = [
           style={`animation-delay: ${index * 0.1}s`}
         >
           <a
-            href={translatePath(project.slug)}
+            href={translatePath('projectDetail', { slug: project.slug })}
             class="block overflow-hidden rounded-t-xl"
             aria-label={t(project.titleKey, lang)}
           >
@@ -86,7 +86,7 @@ const projects = [
             </div>
 
             <h3 class="text-lg font-bold text-navy-900 leading-snug group-hover:text-aqua-600 transition-colors duration-200">
-              <a href={translatePath(project.slug)} class="hover:underline">
+              <a href={translatePath('projectDetail', { slug: project.slug })} class="hover:underline">
                 {t(project.titleKey, lang)}
               </a>
             </h3>
@@ -104,7 +104,7 @@ const projects = [
             </p>
 
             <a
-              href={translatePath(project.slug)}
+              href={translatePath('projectDetail', { slug: project.slug })}
               class="mt-4 inline-flex items-center text-sm font-semibold text-navy-900 hover:text-aqua-600 transition-colors duration-200"
             >
               {t('projects.view_project', lang)}
@@ -119,7 +119,7 @@ const projects = [
 
     <div class="mt-10 md:mt-14 text-center animate-on-scroll">
       <a
-        href={translatePath('/proyectos')}
+        href={translatePath('projects')}
         class="btn-primary px-8 py-3.5 text-base"
       >
         {t('featured_projects.view_all', lang)}

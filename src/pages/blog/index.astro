@@ -33,7 +33,7 @@ allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
               <time datetime={post.data.pubDate.toISOString()} class="text-xs text-slate-500 block mb-3">
                 {post.data.pubDate.toLocaleDateString('es-ES')}
               </time>
-              <a href={translatePath(`/blog/${post.slug}`)} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
+              <a href={translatePath('blogPost', { slug: post.id })} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
                 {t('common.read_more', lang)}
               </a>
             </div>

@@ -28,8 +28,8 @@ const categories = [
   heroTitle={t('projects.all_projects', lang)}
   heroSubtitle="Soluciones reales para desafíos complejos en entornos marítimos e hidráulicos."
   breadcrumbs={[
-    { label: t('nav.home', lang), href: translatePath('/') },
-    { label: t('nav.projects', lang), href: translatePath('/proyectos') },
+    { label: t('nav.home', lang), href: translatePath('home') },
+    { label: t('nav.projects', lang), href: translatePath('projects') },
   ]}
 >
   <section class="section-padding bg-white">
@@ -70,7 +70,7 @@ const categories = [
                 <span>{project.data.location}</span>
                 <span>{project.data.year}</span>
               </div>
-              <a href={translatePath(`/proyectos/${project.slug}`)} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
+              <a href={translatePath('projectDetail', { slug: project.id })} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
                 {t('projects.view_project', lang)} →
               </a>
             </div>

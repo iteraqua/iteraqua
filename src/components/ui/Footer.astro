@@ -13,25 +13,25 @@ const translatePath = useTranslatedPath(lang);
 const currentYear = new Date().getFullYear();
 
 const services = [
-  { label: t('nav.services_port_maintenance', lang), href: translatePath('/servicios/mantenimiento-portuario') },
-  { label: t('nav.services_underwater_works', lang), href: translatePath('/servicios/trabajos-subacuaticos') },
-  { label: t('nav.services_maritime_engineering', lang), href: translatePath('/servicios/ingenieria-maritima') },
-  { label: t('nav.services_coastal_engineering', lang), href: translatePath('/servicios/ingenieria-costera') },
-  { label: t('nav.services_hydraulic_infrastructure', lang), href: translatePath('/servicios/actuaciones-hidraulicas') },
-  { label: t('nav.services_underwater_inspections', lang), href: translatePath('/servicios/inspecciones-subacuaticas') },
+  { label: t('nav.services_port_maintenance', lang), href: translatePath('services.portMaintenance') },
+  { label: t('nav.services_underwater_works', lang), href: translatePath('services.underwaterWorks') },
+  { label: t('nav.services_maritime_engineering', lang), href: translatePath('services.maritimeEngineering') },
+  { label: t('nav.services_coastal_engineering', lang), href: translatePath('services.coastalEngineering') },
+  { label: t('nav.services_hydraulic_infrastructure', lang), href: translatePath('services.hydraulicInfrastructure') },
+  { label: t('nav.services_underwater_inspections', lang), href: translatePath('services.underwaterInspections') },
 ];
 
 const companyLinks = [
-  { label: t('nav.company', lang), href: translatePath('/empresa') },
-  { label: t('nav.certifications', lang), href: translatePath('/certificaciones') },
-  { label: t('nav.projects', lang), href: translatePath('/proyectos') },
-  { label: t('nav.blog', lang), href: translatePath('/blog') },
+  { label: t('nav.company', lang), href: translatePath('company') },
+  { label: t('nav.certifications', lang), href: translatePath('certifications') },
+  { label: t('nav.projects', lang), href: translatePath('projects') },
+  { label: t('nav.blog', lang), href: translatePath('blog') },
 ];
 
 const legalLinks = [
-  { label: t('footer.privacy', lang), href: translatePath('/privacidad') },
-  { label: t('footer.cookies', lang), href: translatePath('/cookies') },
-  { label: t('footer.legal', lang), href: translatePath('/aviso-legal') },
+  { label: t('footer.privacy', lang), href: translatePath('privacy') },
+  { label: t('footer.cookies', lang), href: translatePath('cookies') },
+  { label: t('footer.legal', lang), href: translatePath('legal') },
 ];
 ---
 
@@ -39,7 +39,7 @@ const legalLinks = [
   <div class="container-default py-12 md:py-16 lg:py-20">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
       <div>
-        <a href={translatePath('/')} class="inline-block mb-6" aria-label="Iteraqua">
+        <a href={translatePath('home')} class="inline-block mb-6" aria-label="Iteraqua">
           <svg width="140" height="36" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <text x="0" y="26" font-family="Inter, sans-serif" font-weight="800" font-size="24" fill="#ffffff">Iter</text>
             <text x="56" y="26" font-family="Inter, sans-serif" font-weight="800" font-size="24" fill="#00d4cc">aqua</text>

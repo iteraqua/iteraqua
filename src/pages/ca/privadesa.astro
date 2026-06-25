@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageLayout from '@/layouts/PageLayout.astro';
 import type { Language } from '@/i18n/utils';
 import { t, useTranslatedPath } from '@/i18n/utils';
 
@@ -24,8 +24,8 @@ const structuredData = [
   heroTitle={t('legal.privacy_title', lang)}
   heroSubtitle="Informació sobre el tractament de dades personals"
   breadcrumbs={[
-    { label: t('nav.home', lang), href: translatePath('/') },
-    { label: t('legal.privacy_title', lang), href: translatePath('/privadesa') },
+    { label: t('nav.home', lang), href: translatePath('home') },
+    { label: t('legal.privacy_title', lang), href: translatePath('privacy') },
   ]}
   structuredData={structuredData}
 >
