@@ -1,7 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import type { Language } from '@/i18n/utils';
-import { t } from '@/i18n/utils';
+import type { Language, RouteId } from '@/i18n/utils';
+import { getLocalizedPath, getRouteIdFromPath, t } from '@/i18n/utils';
+import { generateBreadcrumbSchema, SITE_URL } from '@/utils/seo';
 
 interface Props {
   title: string;
@@ -11,7 +12,7 @@ interface Props {
   image?: string;
   heroTitle?: string;
   heroSubtitle?: string;
-  breadcrumbs?: { label: string; href: string }[];
+  breadcrumbs?: { label?: string; href?: string; routeId?: RouteId }[];
   type?: 'website' | 'article';
   publishedDate?: string;
   modifiedDate?: string;
@@ -33,17 +34,53 @@ const {
   structuredData = [],
 } = Astro.props;
 
-const breadcrumbSchema = breadcrumbs.length > 0
-  ? {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": breadcrumbs.map((crumb, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "name": crumb.label,
-        "item": `https://iteraqua.com${crumb.href}`,
-      })),
-    }
+const breadcrumbLabelKeys: Partial<Record<RouteId, string>> = {
+  home: 'nav.home',
+  company: 'nav.company',
+  services: 'nav.services',
+  'services.portMaintenance': 'nav.services_port_maintenance',
+  'services.underwaterWorks': 'nav.services_underwater_works',
+  'services.maritimeEngineering': 'nav.services_maritime_engineering',
+  'services.coastalEngineering': 'nav.services_coastal_engineering',
+  'services.hydraulicInfrastructure': 'nav.services_hydraulic_infrastructure',
+  'services.underwaterInspections': 'nav.services_underwater_inspections',
+  projects: 'nav.projects',
+  blog: 'nav.blog',
+  certifications: 'nav.certifications',
+  contact: 'nav.contact',
+  privacy: 'legal.privacy_title',
+  cookies: 'legal.cookies_title',
+  legal: 'legal.legal_title',
+};
+
+const normalizeBreadcrumbHref = (href: string): string => {
+  const url = href.startsWith('http') ? new URL(href) : new URL(href, SITE_URL);
+  const pathname = url.pathname.replace(/\/+$/, '') || '/';
+  return `${pathname}${url.search}${url.hash}`;
+};
+
+const resolveBreadcrumb = (crumb: NonNullable<Props['breadcrumbs']>[number]) => {
+  const route = crumb.routeId
+    ? { routeId: crumb.routeId, params: {} }
+    : crumb.href
+      ? getRouteIdFromPath(normalizeBreadcrumbHref(crumb.href))
+      : undefined;
+
+  const href = route ? getLocalizedPath(route.routeId, lang, route.params) : normalizeBreadcrumbHref(crumb.href ?? '/');
+  const labelKey = route ? breadcrumbLabelKeys[route.routeId] : undefined;
+  const label = labelKey ? t(labelKey, lang) : (crumb.label ?? '');
+
+  return { label, href };
+};
+
+const normalizedBreadcrumbs = breadcrumbs.map(resolveBreadcrumb);
+const breadcrumbSchema = normalizedBreadcrumbs.length > 0
+  ? generateBreadcrumbSchema(
+      normalizedBreadcrumbs.map((crumb) => ({
+        name: crumb.label,
+        url: `${SITE_URL}${crumb.href}`,
+      }))
+    )
   : null;
 
 const allStructuredData = [...structuredData, ...(breadcrumbSchema ? [breadcrumbSchema] : [])];
@@ -64,13 +101,13 @@ const allStructuredData = [...structuredData, ...(breadcrumbSchema ? [breadcrumb
     <section class="gradient-navy relative overflow-hidden">
       <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-5"></div>
       <div class="container-default relative py-16 md:py-20 lg:py-28">
-        {breadcrumbs.length > 0 && (
+        {normalizedBreadcrumbs.length > 0 && (
           <nav aria-label="Breadcrumb" class="mb-6">
             <ol class="flex items-center gap-2 text-sm text-slate-300">
-              {breadcrumbs.map((crumb, index) => (
+              {normalizedBreadcrumbs.map((crumb, index) => (
                 <li class="flex items-center gap-2">
                   {index > 0 && <span aria-hidden="true">/</span>}
-                  {index < breadcrumbs.length - 1 ? (
+                  {index < normalizedBreadcrumbs.length - 1 ? (
                     <a href={crumb.href} class="hover:text-aqua-400 transition-colors">{crumb.label}</a>
                   ) : (
                     <span class="text-aqua-400" aria-current="page">{crumb.label}</span>
