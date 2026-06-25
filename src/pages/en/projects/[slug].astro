@@ -1,0 +1,76 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { t, useTranslatedPath } from '@/i18n/utils';
+import type { Language } from '@/i18n/utils';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project, lang: 'en' as Language },
+  }));
+}
+
+const { project, lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout
+  title={project.data.title[lang] || project.data.title.en}
+  description={project.data.description[lang] || project.data.description.en}
+  lang={lang}
+  path={`/en/projects/${project.slug}`}
+  image={project.data.image}
+>
+  <div class="container-default section-padding">
+    <article class="max-w-3xl mx-auto">
+      <nav class="mb-8 text-sm text-slate-500">
+        <a href={translatePath('/projects')} class="hover:text-aqua-600 transition-colors">{t('nav.projects', lang)}</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-900">{project.data.title[lang] || project.data.title.en}</span>
+      </nav>
+      <h1 class="text-3xl font-bold text-navy-900 mb-2">
+        {project.data.title[lang] || project.data.title.en}
+      </h1>
+      <div class="flex items-center gap-4 text-sm text-slate-500 mt-2 mb-8">
+        <span>{project.data.location}</span>
+        <span>·</span>
+        <span>{project.data.year}</span>
+        {project.data.client && (
+          <>
+            <span>·</span>
+            <span>{project.data.client}</span>
+          </>
+        )}
+      </div>
+      <div class="mb-8 text-slate-600">
+        <p>{project.data.description[lang] || project.data.description.en}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-slate-50 p-6 rounded-lg">
+          <h2 class="font-semibold text-navy-900 mb-2">{t('projects.challenge', lang)}</h2>
+          <p class="text-slate-700 text-sm leading-relaxed">{project.data.challenge[lang] || project.data.challenge.en}</p>
+        </div>
+        <div class="bg-slate-50 p-6 rounded-lg">
+          <h2 class="font-semibold text-navy-900 mb-2">{t('projects.solution', lang)}</h2>
+          <p class="text-slate-700 text-sm leading-relaxed">{project.data.solution[lang] || project.data.solution.en}</p>
+        </div>
+        <div class="bg-slate-50 p-6 rounded-lg">
+          <h2 class="font-semibold text-navy-900 mb-2">{t('projects.results', lang)}</h2>
+          <p class="text-slate-700 text-sm leading-relaxed">{project.data.results[lang] || project.data.results.en}</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 p-6 rounded-lg mb-8">
+        <img
+          src={project.data.image}
+          alt={project.data.title[lang] || project.data.title.en}
+          class="w-full h-auto rounded"
+          loading="lazy"
+        />
+      </div>
+    </article>
+  </div>
+</BaseLayout>

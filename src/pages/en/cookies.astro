@@ -1,0 +1,38 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'en';
+const translatePath = useTranslatedPath(lang);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": t('legal.cookies_title', lang),
+    "articleSection": "Legal"
+  }
+];
+---
+
+<PageLayout
+  title={t('legal.cookies_title', lang)}
+  description={t('company_page.subtitle', lang)}
+  lang={lang}
+  path="/en/cookies"
+  heroTitle={t('legal.cookies_title', lang)}
+  heroSubtitle="Use of cookies on our website"
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('nav.legal', lang), href: translatePath('/cookies') },
+  ]}
+  structuredData={structuredData}
+>
+  <div class="container-default section-padding">
+    <div class="prose max-w-3xl mx-auto animate-on-scroll">
+      <h2>{t('legal.cookies_title', lang)}</h2>
+      <p class="text-slate-600">Use of cookies on our website.</p>
+    </div>
+  </div>
+</PageLayout>

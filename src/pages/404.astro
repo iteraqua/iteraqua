@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'es';
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página solicitada no existe"
+  lang={lang}
+  path="/404"
+  image="/images/og-default.jpg"
+>
+  <div class="container-default section-padding text-center">
+    <h1 class="text-3xl font-bold text-navy-900 mb-4">404 - {t('common.not_found', lang)}</h1>
+    <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+      {t('common.not_found_description', lang)}
+    </p>
+    <a href={translatePath('/')} class="btn-primary inline-block">
+      {t('common.go_home', lang)}
+    </a>
+  </div>
+</BaseLayout>

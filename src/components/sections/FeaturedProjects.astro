@@ -1,0 +1,132 @@
+---
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+
+const projects = [
+  {
+    titleKey: 'featured_projects.project_1_title',
+    categoryKey: 'featured_projects.project_1_category',
+    locationKey: 'featured_projects.project_1_location',
+    descKey: 'featured_projects.project_1_desc',
+    slug: '/proyectos/ampliacion-muelle-sur',
+    image: '/images/projects/muelle-sur.jpg',
+  },
+  {
+    titleKey: 'featured_projects.project_2_title',
+    categoryKey: 'featured_projects.project_2_category',
+    locationKey: 'featured_projects.project_2_location',
+    descKey: 'featured_projects.project_2_desc',
+    slug: '/proyectos/inspeccion-subacuatica-dique',
+    image: '/images/projects/inspeccion-dique.jpg',
+  },
+  {
+    titleKey: 'featured_projects.project_3_title',
+    categoryKey: 'featured_projects.project_3_category',
+    locationKey: 'featured_projects.project_3_location',
+    descKey: 'featured_projects.project_3_desc',
+    slug: '/proyectos/regeneracion-playa-levante',
+    image: '/images/projects/playa-levante.jpg',
+  },
+];
+---
+
+<section class="bg-white section-padding" aria-labelledby="featured-projects-heading">
+  <div class="container-default">
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 animate-on-scroll">
+      <p class="text-aqua-600 text-sm font-semibold uppercase tracking-wider mb-3">
+        {t('featured_projects.label', lang)}
+      </p>
+      <h2
+        id="featured-projects-heading"
+        class="section-heading text-navy-900"
+      >
+        {t('featured_projects.title', lang)}
+      </h2>
+      <p class="mt-4 section-subheading mx-auto text-pretty">
+        {t('featured_projects.subtitle', lang)}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {projects.map((project, index) => (
+        <article
+          class="animate-on-scroll group card flex flex-col"
+          style={`animation-delay: ${index * 0.1}s`}
+        >
+          <a
+            href={translatePath(project.slug)}
+            class="block overflow-hidden rounded-t-xl"
+            aria-label={t(project.titleKey, lang)}
+          >
+            <div class="aspect-[4/3] bg-slate-200 relative overflow-hidden">
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-navy-800/20 to-aqua-600/10 group-hover:scale-105 transition-transform duration-500"
+                aria-hidden="true"
+              ></div>
+              <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <div class="p-6 flex flex-col flex-1">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="inline-block px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-aqua-700 bg-aqua-50 rounded-md border border-aqua-100">
+                {t(project.categoryKey, lang)}
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold text-navy-900 leading-snug group-hover:text-aqua-600 transition-colors duration-200">
+              <a href={translatePath(project.slug)} class="hover:underline">
+                {t(project.titleKey, lang)}
+              </a>
+            </h3>
+
+            <div class="mt-2 flex items-center gap-1.5 text-sm text-slate-500">
+              <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{t(project.locationKey, lang)}</span>
+            </div>
+
+            <p class="mt-3 text-sm text-slate-600 leading-relaxed flex-1">
+              {t(project.descKey, lang)}
+            </p>
+
+            <a
+              href={translatePath(project.slug)}
+              class="mt-4 inline-flex items-center text-sm font-semibold text-navy-900 hover:text-aqua-600 transition-colors duration-200"
+            >
+              {t('projects.view_project', lang)}
+              <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 md:mt-14 text-center animate-on-scroll">
+      <a
+        href={translatePath('/proyectos')}
+        class="btn-primary px-8 py-3.5 text-base"
+      >
+        {t('featured_projects.view_all', lang)}
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

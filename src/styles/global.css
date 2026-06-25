@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  /* Marine-inspired color palette */
+  --color-navy-950: #0a1628;
+  --color-navy-900: #0f1f3d;
+  --color-navy-800: #152d54;
+  --color-navy-700: #1e3f73;
+  --color-navy-600: #2a5496;
+  --color-navy-500: #3a6db5;
+
+  --color-aqua-50: #edfffe;
+  --color-aqua-100: #d0fffd;
+  --color-aqua-200: #a4fffc;
+  --color-aqua-300: #6bfff9;
+  --color-aqua-400: #28f5f0;
+  --color-aqua-500: #00d4cc;
+  --color-aqua-600: #00b0aa;
+  --color-aqua-700: #008c89;
+  --color-aqua-800: #007071;
+  --color-aqua-900: #005c5e;
+  --color-aqua-950: #003a3d;
+
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  --color-ocean-50: #eef5ff;
+  --color-ocean-100: #d9e8ff;
+  --color-ocean-200: #bcd7ff;
+  --color-ocean-300: #8ebeff;
+  --color-ocean-400: #599bff;
+  --color-ocean-500: #3377ff;
+  --color-ocean-600: #1b57f5;
+  --color-ocean-700: #1443e1;
+  --color-ocean-800: #1737b6;
+  --color-ocean-900: #19328f;
+  --color-ocean-950: #142057;
+
+  /* Typography - use system fonts for performance */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Custom spacing/sizing */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-100: 25rem;
+  --spacing-120: 30rem;
+  --spacing-144: 36rem;
+
+  /* Container widths */
+  --container-8xl: 88rem;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-slide-in-left: slide-in-left 0.5s ease-out;
+  --animate-slide-in-right: slide-in-right 0.5s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slide-in-left {
+    from { opacity: 0; transform: translateX(-1rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(1rem); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+}
+
+/* Base layer styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-slate-800 bg-white;
+  }
+
+  ::selection {
+    @apply bg-aqua-200 text-navy-900;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold tracking-tight text-navy-900;
+  }
+}
+
+@layer components {
+  .container-default {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .gradient-navy {
+    background: linear-gradient(135deg, var(--color-navy-900), var(--color-navy-800));
+  }
+
+  .gradient-ocean {
+    background: linear-gradient(135deg, var(--color-navy-900), var(--color-ocean-800));
+  }
+
+  .gradient-aqua {
+    background: linear-gradient(135deg, var(--color-aqua-600), var(--color-aqua-500));
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg text-white bg-navy-900 hover:bg-navy-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-500;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg text-navy-900 bg-aqua-400 hover:bg-aqua-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-aqua-500;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy-500;
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-navy-900 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow duration-200;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+
+  .section-subheading {
+    @apply text-lg md:text-xl text-slate-600 max-w-3xl;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'en';
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout
+  title={t('legal.legal_title', lang)}
+  description={t('company_page.subtitle', lang)}
+  lang={lang}
+  path="/en/legal-notice"
+>
+  <div class="container-default section-padding">
+    <div class="prose max-w-3xl mx-auto animate-on-scroll">
+      <h1 class="text-3xl font-bold text-navy-900 mb-6">{t('legal.legal_title', lang)}</h1>
+      <div class="prose text-slate-600">
+        <h2>{t('legal.legal_notice.sections.0', lang)}</h2>
+        <p>Information about the website owner.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t } from '@/i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Language;
+  path: string;
+  image?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  breadcrumbs?: { label: string; href: string }[];
+  type?: 'website' | 'article';
+  publishedDate?: string;
+  modifiedDate?: string;
+  structuredData?: object[];
+}
+
+const {
+  title,
+  description,
+  lang,
+  path,
+  image,
+  heroTitle,
+  heroSubtitle,
+  breadcrumbs = [],
+  type = 'website',
+  publishedDate,
+  modifiedDate,
+  structuredData = [],
+} = Astro.props;
+
+const breadcrumbSchema = breadcrumbs.length > 0
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbs.map((crumb, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": crumb.label,
+        "item": `https://iteraqua.com${crumb.href}`,
+      })),
+    }
+  : null;
+
+const allStructuredData = [...structuredData, ...(breadcrumbSchema ? [breadcrumbSchema] : [])];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  path={path}
+  image={image}
+  type={type}
+  publishedDate={publishedDate}
+  modifiedDate={modifiedDate}
+  structuredData={allStructuredData}
+>
+  {heroTitle && (
+    <section class="gradient-navy relative overflow-hidden">
+      <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-5"></div>
+      <div class="container-default relative py-16 md:py-20 lg:py-28">
+        {breadcrumbs.length > 0 && (
+          <nav aria-label="Breadcrumb" class="mb-6">
+            <ol class="flex items-center gap-2 text-sm text-slate-300">
+              {breadcrumbs.map((crumb, index) => (
+                <li class="flex items-center gap-2">
+                  {index > 0 && <span aria-hidden="true">/</span>}
+                  {index < breadcrumbs.length - 1 ? (
+                    <a href={crumb.href} class="hover:text-aqua-400 transition-colors">{crumb.label}</a>
+                  ) : (
+                    <span class="text-aqua-400" aria-current="page">{crumb.label}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">{heroTitle}</h1>
+        {heroSubtitle && (
+          <p class="mt-4 text-lg md:text-xl text-slate-300 max-w-3xl text-pretty">{heroSubtitle}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  <slot />
+</BaseLayout>

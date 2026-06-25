@@ -1,0 +1,28 @@
+---
+import type { Language } from '@/i18n/utils';
+import { t } from '@/i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+
+const stats = [
+  { value: '25+', label: t('trust.years', lang) },
+  { value: '200+', label: t('trust.projects_completed', lang) },
+  { value: '15+', label: t('trust.sectors', lang) },
+  { value: '100%', label: t('trust.safety_commitment', lang) },
+];
+---
+
+<section class="relative -mt-12 z-30 container-default" aria-label="Key statistics">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    {stats.map((stat) => (
+      <div class="bg-white rounded-xl shadow-lg border border-slate-100 p-6 text-center animate-on-scroll">
+        <div class="text-3xl md:text-4xl font-bold text-navy-900">{stat.value}</div>
+        <div class="mt-1 text-sm text-slate-600 font-medium">{stat.label}</div>
+      </div>
+    ))}
+  </div>
+</section>

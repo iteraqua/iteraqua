@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+echo "📊 ASTRO IMPORT AUDIT"
+echo "======================"
+
+FILES=$(find src -type f \( -name "*.astro" -o -name "*.ts" -o -name "*.js" \))
+
+CORRUPTED=0
+DEEP_REL=0
+NON_ALIAS=0
+
+echo ""
+echo "🔍 Scanning files..."
+echo ""
+
+for file in $FILES; do
+
+  # 1. corrupted alias like ../../../@/
+  if grep -q "\.\./\.\./.*@/" "$file"; then
+    echo "❌ CORRUPTED ALIAS:"
+    echo "   $file"
+    grep "\.\./\.\./.*@/" "$file" | sed 's/^/   -> /'
+    echo ""
+    CORRUPTED=$((CORRUPTED+1))
+  fi
+
+  # 2. deep relative imports (too many ..)
+  if grep -q "\.\./\.\./\.\./\.\./" "$file"; then
+    echo "⚠️ DEEP RELATIVE IMPORT:"
+    echo "   $file"
+    grep "\.\./\.\./\.\./\.\./" "$file" | sed 's/^/   -> /'
+    echo ""
+    DEEP_REL=$((DEEP_REL+1))
+  fi
+
+  # 3. core modules not using alias
+  if grep -q "\.\./i18n\|../utils/seo\|../layouts" "$file"; then
+    echo "⚠️ NON-ALIAS CORE IMPORT:"
+    echo "   $file"
+    grep "\.\./i18n\|../utils/seo\|../layouts" "$file" | sed 's/^/   -> /'
+    echo ""
+    NON_ALIAS=$((NON_ALIAS+1))
+  fi
+
+done
+
+echo "======================"
+echo "📦 SUMMARY"
+echo "Corrupted alias cases: $CORRUPTED"
+echo "Deep relative cases:   $DEEP_REL"
+echo "Non-alias core imports:$NON_ALIAS"
+echo "======================"

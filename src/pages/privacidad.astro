@@ -1,0 +1,61 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'es';
+const translatePath = useTranslatedPath(lang);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": t('legal.privacy_title', lang),
+    "articleSection": "Legal"
+  }
+];
+---
+
+<PageLayout
+  title={t('legal.privacy_title', lang)}
+  description="Política de privacidad de Iteraqua"
+  lang={lang}
+  path="/privacidad"
+  heroTitle={t('legal.privacy_title', lang)}
+  heroSubtitle="Información sobre el tratamiento de datos personales"
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('legal.privacy_title', lang), href: translatePath('/privacidad') },
+  ]}
+  structuredData={structuredData}
+>
+  <section class="section-padding bg-white">
+    <div class="container-default">
+      <div class="prose max-w-3xl mx-auto animate-on-scroll">
+        <h2>{t('legal.privacy.sections.0', lang)}</h2>
+        <p class="text-slate-600">Información sobre el responsable del tratamiento de sus datos personales.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.1', lang)}</h2>
+        <p class="text-slate-600">Descripción de los datos personales que recopilamos y cómo los utilizamos.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.2', lang)}</h2>
+        <p class="text-slate-600">Finalidad del tratamiento de sus datos personales.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.3', lang)}</h2>
+        <p class="text-slate-600">Base legal para el tratamiento de sus datos.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.4', lang)}</h2>
+        <p class="text-slate-600">Destinatarios de sus datos personales.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.5', lang)}</h2>
+        <p class="text-slate-600">Derechos sobre sus datos personales.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.6', lang)}</h2>
+        <p class="text-slate-600">Conservación de sus datos personales.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.7', lang)}</h2>
+        <p class="text-slate-600">Medidas de seguridad aplicadas.</p>
+      </div>
+    </div>
+</section>
+</PageLayout>

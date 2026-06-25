@@ -1,0 +1,97 @@
+---
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const translatePath = useTranslatedPath(lang);
+
+const services = [
+  {
+    key: 'port_maintenance',
+    href: translatePath('/servicios/mantenimiento-portuario'),
+    icon: 'anchor',
+  },
+  {
+    key: 'underwater_works',
+    href: translatePath('/servicios/trabajos-subacuaticos'),
+    icon: 'waves',
+  },
+  {
+    key: 'maritime_engineering',
+    href: translatePath('/servicios/ingenieria-maritima'),
+    icon: 'compass',
+  },
+  {
+    key: 'coastal_engineering',
+    href: translatePath('/servicios/ingenieria-costera'),
+    icon: 'shore',
+  },
+  {
+    key: 'hydraulic_infrastructure',
+    href: translatePath('/servicios/actuaciones-hidraulicas'),
+    icon: 'water',
+  },
+  {
+    key: 'underwater_inspections',
+    href: translatePath('/servicios/inspecciones-subacuaticas'),
+    icon: 'search',
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  anchor:
+    'M12 8a3 3 0 00-3 3v4.28A2 2 0 008 17a2 2 0 004 0 2 2 0 00-1-1.72V11a1 1 0 012 0v4.28A2 2 0 0018 17M5 12h14M12 3v1',
+  waves: 'M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0',
+  compass:
+    'M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M6 12h12M12 2l2 4-2-4M12 22l2-4-2 4',
+  shore: 'M3 21c3-3 6-3 9 0s6 3 9 0M3 15c3-3 6-3 9 0s6 3 9 0M3 9c3-3 6-3 9 0s6 3 9 0',
+  water:
+    'M12 2C8 7 4 10 4 14a8 8 0 0016 0c0-4-4-7-8-12z',
+  search: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+};
+---
+
+<section class="section-padding bg-white" aria-labelledby="services-heading">
+  <div class="container-default">
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 animate-on-scroll">
+      <h2 id="services-heading" class="section-heading text-navy-900">
+        {t('services_overview.title', lang)}
+      </h2>
+      <p class="mt-4 section-subheading mx-auto">
+        {t('services_overview.subtitle', lang)}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {services.map((service, index) => (
+        <a
+          href={service.href}
+          class="group card p-6 lg:p-8 hover:border-aqua-200 transition-all duration-200 animate-on-scroll"
+          style={`animation-delay: ${index * 0.05}s`}
+        >
+          <div class="w-12 h-12 rounded-lg bg-aqua-50 flex items-center justify-center mb-4 group-hover:bg-aqua-100 transition-colors">
+            <svg class="w-6 h-6 text-aqua-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={iconPaths[service.icon]} />
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-navy-900 group-hover:text-navy-700 transition-colors">
+            {t(`services.${service.key}.title`, lang)}
+          </h3>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+            {t(`services.${service.key}.shortDescription`, lang)}
+          </p>
+          <div class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-aqua-600 group-hover:text-aqua-700 transition-colors">
+            {t('common.read_more', lang)}
+            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

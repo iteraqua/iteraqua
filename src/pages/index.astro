@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import TrustBar from '../components/sections/TrustBar.astro';
+import ServicesOverview from '../components/sections/ServicesOverview.astro';
+import FeaturedProjects from '../components/sections/FeaturedProjects.astro';
+import WhyIteraqua from '../components/sections/WhyIteraqua.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
+import { defaultLang } from '@/i18n/ui';
+import type { Language } from '@/i18n/utils';
+
+const lang: Language = defaultLang;
+---
+
+<BaseLayout
+  title="Ingeniería marítima y operaciones subacuáticas"
+  description="Iteraqua: más de 25 años diseñando, construyendo y manteniendo infraestructuras portuarias y costeras. Ingeniería marítima de precisión y operaciones subacuáticas profesionales."
+  lang={lang}
+  path="/"
+  image="/images/og-default.jpg"
+>
+  <Hero lang={lang} />
+  <TrustBar lang={lang} />
+  <ServicesOverview lang={lang} />
+  <WhyIteraqua lang={lang} />
+  <FeaturedProjects lang={lang} />
+  <CtaSection lang={lang} />
+</BaseLayout>

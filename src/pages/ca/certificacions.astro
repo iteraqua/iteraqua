@@ -1,0 +1,30 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'ca';
+const translatePath = useTranslatedPath(lang);
+---
+
+<PageLayout
+  title={t('certifications_page.title', lang)}
+  description={t('certifications_page.subtitle', lang)}
+  lang={lang}
+  path="/ca/certificacions"
+  heroTitle={t('certifications_page.title', lang)}
+  heroSubtitle={t('certifications_page.subtitle', lang)}
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('nav.certifications', lang), href: translatePath('/certificacions') },
+  ]}
+>
+  <section class="section-padding bg-white">
+    <div class="container-default">
+      <div class="prose max-w-3xl mx-auto animate-on-scroll">
+        <h2 class="text-2xl font-bold text-navy-900">{t('certifications_page.title', lang)}</h2>
+        <p class="text-slate-600">{t('certifications_page.subtitle', lang)}</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

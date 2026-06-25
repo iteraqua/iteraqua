@@ -1,0 +1,61 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'ca';
+const translatePath = useTranslatedPath(lang);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": t('legal.privacy_title', lang),
+    "articleSection": "Legal"
+  }
+];
+---
+
+<PageLayout
+  title={t('legal.privacy_title', lang)}
+  description="Política de privadesa d'Iteraqua"
+  lang={lang}
+  path="/privadesa"
+  heroTitle={t('legal.privacy_title', lang)}
+  heroSubtitle="Informació sobre el tractament de dades personals"
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('legal.privacy_title', lang), href: translatePath('/privadesa') },
+  ]}
+  structuredData={structuredData}
+>
+  <section class="section-padding bg-white">
+    <div class="container-default">
+      <div class="prose max-w-3xl mx-auto animate-on-scroll">
+        <h2>{t('legal.privacy.sections.0', lang)}</h2>
+        <p class="text-slate-600">Informació sobre el responsable del tractament de les seves dades personals.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.1', lang)}</h2>
+        <p class="text-slate-600">Descripció de les dades personals que recopilem i com les utilitzem.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.2', lang)}</h2>
+        <p class="text-slate-600">Finalitat del tractament de les seves dades personals.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.3', lang)}</h2>
+        <p class="text-slate-600">Base legal per al tractament de les seves dades.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.4', lang)}</h2>
+        <p class="text-slate-600">Destinataris de les seves dades personals.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.5', lang)}</h2>
+        <p class="text-slate-600">Drets sobre les seves dades personals.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.6', lang)}</h2>
+        <p class="text-slate-600">Conservació de les seves dades personals.</p>
+        
+        <h2 class="mt-8">{t('legal.privacy.sections.7', lang)}</h2>
+        <p class="text-slate-600">Mesures de seguretat aplicades.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

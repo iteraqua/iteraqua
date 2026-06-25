@@ -1,0 +1,55 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'es';
+const translatePath = useTranslatedPath(lang);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": t('legal.cookies_title', lang),
+    "articleSection": "Legal"
+  }
+];
+---
+
+<PageLayout
+  title={t('legal.cookies_title', lang)}
+  description="Política de cookies de Iteraqua"
+  lang={lang}
+  path="/cookies"
+  heroTitle={t('legal.cookies_title', lang)}
+  heroSubtitle="Uso de cookies en nuestra web"
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('legal.cookies_title', lang), href: translatePath('/cookies') },
+  ]}
+  structuredData={structuredData}
+>
+  <section class="section-padding bg-white">
+    <div class="container-default">
+      <div class="prose max-w-3xl mx-auto animate-on-scroll">
+        <h2>{t('legal.cookies.sections.0', lang)}</h2>
+        <p class="text-slate-600">¿Qué son las cookies y cómo las utilizamos?</p>
+        
+        <h2 class="mt-8">{t('legal.cookies.sections.1', lang)}</h2>
+        <p class="text-slate-600">Tipos de cookies que utilizamos en nuestra web.</p>
+        
+        <h2 class="mt-8">{t('legal.cookies.sections.2', lang)}</h2>
+        <p class="text-slate-600">Cookies propias que utilizamos para el funcionamiento básico del sitio.</p>
+        
+        <h2 class="mt-8">{t('legal.cookies.sections.3', lang)}</h2>
+        <p class="text-slate-600">Cookies de terceros para análisis y publicidad.</p>
+        
+        <h2 class="mt-8">{t('legal.cookies.sections.4', lang)}</h2>
+        <p class="text-slate-600">Cómo gestionar las cookies en su navegador.</p>
+        
+        <h2 class="mt-8">{t('legal.cookies.sections.5', lang)}</h2>
+        <p class="text-slate-600">Actualizaciones de esta política.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

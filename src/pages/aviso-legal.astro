@@ -1,0 +1,55 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+const lang: Language = 'es';
+const translatePath = useTranslatedPath(lang);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "name": t('legal.legal_title', lang),
+    "articleSection": "Legal"
+  }
+];
+---
+
+<PageLayout
+  title={t('legal.legal_title', lang)}
+  description="Aviso legal de Iteraqua"
+  lang={lang}
+  path="/aviso-legal"
+  heroTitle={t('legal.legal_title', lang)}
+  heroSubtitle="Información legal sobre el uso de esta web"
+  breadcrumbs={[
+    { label: t('nav.home', lang), href: translatePath('/') },
+    { label: t('legal.legal_title', lang), href: translatePath('/aviso-legal') },
+  ]}
+  structuredData={structuredData}
+>
+  <section class="section-padding bg-white">
+    <div class="container-default">
+      <div class="proprose max-w-3xl mx-auto animate-on-scroll">
+        <h2>{t('legal.legal_notice.sections.0', lang)}</h2>
+        <p class="text-slate-600">Información sobre el titular de la web.</p>
+        
+        <h2 class="mt-8">{t('legal.legal_notice.sections.1', lang)}</h2>
+        <p class="text-slate-600">Condiciones de uso del sitio web.</p>
+        
+        <h2 class="mt-8">{t('legal.legal_notice.sections.2', lang)}</h2>
+        <p class="text-slate-600">Propiedad intelectual e industrial.</p>
+        
+        <h2 class="mt-8">{t('legal.legal_notice.sections.3', lang)}</h2>
+        <p class="text-slate-600">Exención de responsabilidad.</p>
+        
+        <h2 class="mt-8">{t('legal.legal_notice.sections.4', lang)}</h2>
+        <p class="text-slate-600">Legislación aplicable.</p>
+        
+        <h2 class="mt-8">{t('legal.legal_notice.sections.5', lang)}</h2>
+        <p class="text-slate-600">Cláusulas generales.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

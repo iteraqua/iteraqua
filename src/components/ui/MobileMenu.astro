@@ -1,0 +1,113 @@
+---
+import type { Language } from '@/i18n/utils';
+
+interface Props {
+  lang: Language;
+  navItems: { label: string; href: string; children?: { label: string; href: string }[] }[];
+}
+
+const { lang, navItems } = Astro.props;
+---
+
+<div class="lg:hidden">
+  <button
+    id="mobile-menu-toggle"
+    type="button"
+    class="p-2 text-slate-700 hover:text-navy-900 rounded-md"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      <path id="menu-icon-close" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="hidden" />
+    </svg>
+  </button>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 top-16 bg-white z-40 transform translate-x-full transition-transform duration-300 ease-in-out lg:hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation menu"
+  >
+    <nav class="container-default py-6 overflow-y-auto" aria-label="Mobile navigation">
+      <ul class="space-y-1">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="flex items-center justify-between px-3 py-3 text-base font-medium text-slate-700 hover:text-navy-900 hover:bg-slate-50 rounded-lg transition-colors"
+            >
+              {item.label}
+              {item.children && (
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              )}
+            </a>
+            {item.children && (
+              <ul class="ml-4 mt-1 space-y-1">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class="block px-3 py-2 text-sm text-slate-600 hover:text-navy-900 hover:bg-slate-50 rounded-lg transition-colors"
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (!toggle || !menu || !openIcon || !closeIcon) return;
+
+    const openMenu = () => {
+      menu.classList.remove('translate-x-full');
+      menu.classList.add('translate-x-0');
+      openIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      menu.classList.remove('translate-x-0');
+      menu.classList.add('translate-x-full');
+      openIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+  });
+</script>

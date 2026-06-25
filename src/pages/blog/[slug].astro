@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import type { Language } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const lang: Language = 'es';
+const translatePath = useTranslatedPath(lang);
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={post.data.title[lang] || post.data.title.es}
+  description={post.data.description[lang] || post.data.description.es}
+  lang={lang}
+  path={`/blog/${post.slug}`}
+  image={post.data.heroImage}
+>
+  <div class="container-default section-padding">
+    <article class="max-w-3xl mx-auto">
+      <nav class="mb-8 text-sm text-slate-500">
+        <a href={translatePath('/blog')} class="hover:text-aqua-600 transition-colors">{t('nav.blog', lang)}</a>
+        <span class="mx-2">/</span>
+        <span class="text-navy-900">{post.data.title[lang] || post.data.title.es}</span>
+      </nav>
+      <h1 class="text-3xl md:text-4xl font-bold text-navy-900 mb-4">
+        {post.data.title[lang] || post.data.title.es}
+      </h1>
+      <div class="text-slate-600 mb-8 flex items-center gap-4">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span>·</span>
+        <span>{post.data.author}</span>
+      </div>
+      {post.data.heroImage && (
+        <div class="mb-8 rounded-lg overflow-hidden">
+          <img
+            src={post.data.heroImage}
+            alt={post.data.title[lang] || post.data.title.es}
+            class="w-full h-auto"
+            loading="lazy"
+          />
+        </div>
+      )}
+      <div class="prose prose-slate max-w-3xl mx-auto">
+        <Content />
+      </div>
+    </article>
+  </div>
+</BaseLayout>
