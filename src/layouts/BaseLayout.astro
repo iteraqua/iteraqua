@@ -1,9 +1,7 @@
 ---
 import '../styles/global.css';
-import type { Language } from '@/i18n/utils';
-import { t } from '@/i18n/utils';
-import { useTranslatedPath } from '@/i18n/utils';
-import { generateCanonicalURL, generateHreflangTags, SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from '@/utils/seo';
+import { getLocalizedPath, getRouteIdFromPath, t, type Language } from '@/i18n/utils';
+import { generateCanonicalURL, generateHreflangTags, openGraphLocales, SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from '@/utils/seo';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 
@@ -32,11 +30,10 @@ const {
 } = Astro.props;
 
 const canonicalURL = generateCanonicalURL(path, lang);
-const hreflangTags = generateHreflangTags(path);
+const hreflangTags = generateHreflangTags(path, lang);
 const ogImage = image.startsWith('http') ? image : `${SITE_URL}${image}`;
-const translatePath = useTranslatedPath(lang);
-
-const langLocales: Record<Language, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB' };
+const routeMatch = getRouteIdFromPath(new URL(canonicalURL).pathname);
+const xDefaultPath = routeMatch ? getLocalizedPath(routeMatch.routeId, 'es', routeMatch.params) : path;
 ---
 
 <!DOCTYPE html>
@@ -53,7 +50,7 @@ const langLocales: Record<Language, string> = { es: 'es_ES', ca: 'ca_ES', en: 'e
     {hreflangTags.map(({ lang: hreflang, url }) => (
       <link rel="alternate" hreflang={hreflang} href={url} />
     ))}
-    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${path}`} />
+    <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${xDefaultPath}`} />
 
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
@@ -61,7 +58,7 @@ const langLocales: Record<Language, string> = { es: 'es_ES', ca: 'ca_ES', en: 'e
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content={SITE_NAME} />
-    <meta property="og:locale" content={langLocales[lang]} />
+    <meta property="og:locale" content={openGraphLocales[lang]} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | ${SITE_NAME}`} />

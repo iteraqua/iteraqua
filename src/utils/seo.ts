@@ -1,13 +1,19 @@
-import type { Language } from '@/i18n/utils';
+import { getLocalizedPath, getRouteIdFromPath, type Language } from '@/i18n/utils';
 
 export const SITE_URL = 'https://iteraqua.com';
 export const SITE_NAME = 'Iteraqua';
 export const DEFAULT_OG_IMAGE = '/images/og-default.jpg';
 
-const langLocales: Record<Language, string> = {
+export const openGraphLocales: Record<Language, string> = {
   es: 'es_ES',
   ca: 'ca_ES',
   en: 'en_GB',
+};
+
+const hreflangLocales: Record<Language, string> = {
+  es: 'es',
+  ca: 'ca',
+  en: 'en',
 };
 
 const langRoutes: Record<Language, string> = {
@@ -21,11 +27,20 @@ export function generateCanonicalURL(path: string, lang: Language): string {
   return `${SITE_URL}${prefix}${path}`;
 }
 
-export function generateHreflangTags(path: string): { lang: string; url: string }[] {
-  return (Object.entries(langRoutes) as [Language, string][]).map(([lang, prefix]) => ({
-    lang: langLocales[lang],
-    url: `${SITE_URL}${prefix}${path}`,
-  }));
+export function generateHreflangTags(path: string, lang: Language): { lang: string; url: string }[] {
+  const currentPath = `${langRoutes[lang]}${path}`.replace(/\/$/, '') || '/';
+  const routeMatch = getRouteIdFromPath(currentPath);
+
+  return (Object.keys(langRoutes) as Language[]).map((targetLang) => {
+    const translatedPath = routeMatch
+      ? getLocalizedPath(routeMatch.routeId, targetLang, routeMatch.params)
+      : `${langRoutes[targetLang]}${path}`;
+
+    return {
+      lang: hreflangLocales[targetLang],
+      url: `${SITE_URL}${translatedPath}`,
+    };
+  });
 }
 
 interface OpenGraphParams {
@@ -47,7 +62,7 @@ export function generateOpenGraphTags(params: OpenGraphParams): Record<string, s
     'og:image': image,
     'og:url': params.url,
     'og:type': params.type,
-    'og:locale': langLocales[locale],
+    'og:locale': openGraphLocales[locale],
     'og:site_name': SITE_NAME,
   };
 }
