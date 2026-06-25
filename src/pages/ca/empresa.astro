@@ -36,8 +36,8 @@ const structuredData = [
   heroTitle={t('company_page.title', lang)}
   heroSubtitle={t('company_page.subtitle', lang)}
   breadcrumbs={[
-    { label: t('nav.home', lang), href: translatePath('/') },
-    { label: t('nav.company', lang), href: translatePath('/empresa') },
+    { label: t('nav.home', lang), href: translatePath('home') },
+    { label: t('nav.company', lang), href: translatePath('company') },
   ]}
   structuredData={structuredData}
 >
@@ -92,7 +92,7 @@ const structuredData = [
       <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 animate-on-scroll">{t('cta.title', lang)}</h2>
       <p class="text-slate-300 mb-8 max-w-2xl mx-auto animate-on-scroll">{t('cta.subtitle', lang)}</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll">
-        <a href={translatePath('/contacto')} class="btn-secondary">{t('cta.cta_consultation', lang)}</a>
+        <a href={translatePath('contact')} class="btn-secondary">{t('cta.cta_consultation', lang)}</a>
         <a href="https://wa.me/34972000000" target="_blank" rel="noopener noreferrer" class="btn-outline-light">{t('cta.cta_whatsapp', lang)}</a>
       </div>
     </div>

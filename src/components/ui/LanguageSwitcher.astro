@@ -1,7 +1,7 @@
 ---
 import type { Language } from '@/i18n/utils';
-import { languages, defaultLang } from '@/i18n/ui';
-import { useTranslatedPath } from '@/i18n/utils';
+import { languages } from '@/i18n/ui';
+import { getLocalizedPath, getRouteIdFromPath } from '@/i18n/utils';
 
 interface Props {
   lang: Language;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { lang, path } = Astro.props;
-const translatePath = useTranslatedPath(lang);
+const currentRoute = getRouteIdFromPath(path);
 
 const langLabels: Record<string, string> = {
   es: 'ES',
@@ -39,8 +39,7 @@ const otherLangs = languages.filter((l) => l !== lang);
   <div class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
     <ul class="bg-white rounded-lg shadow-lg border border-slate-200 py-1 min-w-[80px]" role="menu">
       {([lang, ...otherLangs] as const).map((l) => {
-        const prefix = l === defaultLang ? '' : `/${l}`;
-        const href = `${prefix}${path}`;
+        const href = currentRoute ? getLocalizedPath(currentRoute.routeId, l, currentRoute.params) : path;
         return (
           <li role="none">
             <a

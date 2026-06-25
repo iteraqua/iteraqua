@@ -7,7 +7,7 @@ import { t, useTranslatedPath } from '@/i18n/utils';
 export async function getStaticPaths() {
   const blogPosts = await getCollection('blog');
   return blogPosts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
@@ -22,13 +22,13 @@ const { Content } = await render(post);
   title={post.data.title[lang] || post.data.title.en}
   description={post.data.description[lang] || post.data.description.en}
   lang={lang}
-  path={`/en/blog/${post.slug}`}
+  path={`/en/blog/${post.id}`}
   image={post.data.heroImage}
 >
   <div class="container-default section-padding">
     <article class="max-w-3xl mx-auto">
       <nav class="mb-8 text-sm text-slate-500">
-        <a href={translatePath('/blog')} class="hover:text-aqua-600 transition-colors">{t('nav.blog', lang)}</a>
+        <a href={translatePath('blog')} class="hover:text-aqua-600 transition-colors">{t('nav.blog', lang)}</a>
         <span class="mx-2">/</span>
         <span class="text-navy-900">{post.data.title[lang] || post.data.title.en}</span>
       </nav>

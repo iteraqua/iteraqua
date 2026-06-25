@@ -30,7 +30,7 @@ allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
               <p class="text-slate-600 text-sm mb-4">
                 {post.data.description[lang] || post.data.description.en}
               </p>
-              <a href={`/en/blog/${post.slug}`} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
+              <a href={translatePath('blogPost', { slug: post.id })} class="text-aqua-600 hover:text-aqua-700 font-medium text-sm">
                 {t('common.read_more', lang)}
               </a>
             </div>

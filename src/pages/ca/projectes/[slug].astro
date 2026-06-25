@@ -7,7 +7,7 @@ import type { Language } from '@/i18n/utils';
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { project, lang: 'ca' as Language },
   }));
 }
@@ -20,13 +20,13 @@ const translatePath = useTranslatedPath(lang);
   title={project.data.title[lang] || project.data.title.ca}
   description={project.data.description[lang] || project.data.description.ca}
   lang={lang}
-  path={`/ca/projectes/${project.slug}`}
+  path={`/ca/projectes/${project.id}`}
   image={project.data.image}
 >
   <div class="container-default section-padding">
     <article class="max-w-3xl mx-auto">
       <nav class="mb-8 text-sm text-slate-500">
-        <a href={translatePath('/projectes')} class="hover:text-aqua-600 transition-colors">{t('nav.projects', lang)}</a>
+        <a href={translatePath('projects')} class="hover:text-aqua-600 transition-colors">{t('nav.projects', lang)}</a>
         <span class="mx-2">/</span>
         <span class="text-navy-900">{project.data.title[lang] || project.data.title.ca}</span>
       </nav>
