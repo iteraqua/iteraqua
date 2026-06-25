@@ -1,4 +1,4 @@
-import type { Language } from '@/i18n/utils';
+import { getLocalizedPath, getRouteIdFromPath, type Language } from '@/i18n/utils';
 
 export const SITE_URL = 'https://iteraqua.com';
 export const SITE_NAME = 'Iteraqua';
@@ -21,11 +21,38 @@ export function generateCanonicalURL(path: string, lang: Language): string {
   return `${SITE_URL}${prefix}${path}`;
 }
 
-export function generateHreflangTags(path: string): { lang: string; url: string }[] {
-  return (Object.entries(langRoutes) as [Language, string][]).map(([lang, prefix]) => ({
-    lang: langLocales[lang],
-    url: `${SITE_URL}${prefix}${path}`,
+function getLocalizedUrls(path: string, lang: Language): Record<Language, string> {
+  const localizedPath = `${langRoutes[lang]}${path}`.replace(/\/+$/, '');
+  const route = getRouteIdFromPath(localizedPath || '/');
+
+  if (!route) {
+    return Object.fromEntries(
+      (Object.entries(langRoutes) as [Language, string][]).map(([targetLang, prefix]) => [
+        targetLang,
+        `${SITE_URL}${prefix}${path}`,
+      ])
+    ) as Record<Language, string>;
+  }
+
+  return Object.fromEntries(
+    (Object.keys(langRoutes) as Language[]).map((targetLang) => [
+      targetLang,
+      `${SITE_URL}${getLocalizedPath(route.routeId, targetLang, route.params)}`,
+    ])
+  ) as Record<Language, string>;
+}
+
+export function generateHreflangTags(path: string, lang: Language): { lang: string; url: string }[] {
+  const localizedUrls = getLocalizedUrls(path, lang);
+
+  return (Object.keys(langRoutes) as Language[]).map((targetLang) => ({
+    lang: langLocales[targetLang],
+    url: localizedUrls[targetLang],
   }));
+}
+
+export function generateXDefaultURL(path: string, lang: Language): string {
+  return getLocalizedUrls(path, lang).es;
 }
 
 interface OpenGraphParams {

@@ -22,7 +22,7 @@ const { Content } = await render(post);
   title={post.data.title[lang] || post.data.title.ca}
   description={post.data.description[lang] || post.data.description.ca}
   lang={lang}
-  path={`/ca/blog/${post.id}`}
+  path={`/blog/${post.id}`}
   image={post.data.heroImage}
 >
   <div class="container-default section-padding">
