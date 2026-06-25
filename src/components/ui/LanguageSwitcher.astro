@@ -18,15 +18,18 @@ const langLabels: Record<string, string> = {
 };
 
 const otherLangs = languages.filter((l) => l !== lang);
+const languageMenuId = 'language-switcher-menu';
 ---
 
-<div class="relative group">
+<div class="relative group" data-language-switcher>
   <button
     type="button"
     class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-slate-600 hover:text-navy-900 rounded transition-colors"
     aria-label="Change language"
     aria-expanded="false"
-    aria-haspopup="true"
+    aria-haspopup="menu"
+    aria-controls={languageMenuId}
+    data-language-trigger
   >
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -36,8 +39,12 @@ const otherLangs = languages.filter((l) => l !== lang);
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
   </button>
-  <div class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-    <ul class="bg-white rounded-lg shadow-lg border border-slate-200 py-1 min-w-[80px]" role="menu">
+  <div
+    id={languageMenuId}
+    class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50"
+    data-language-menu
+  >
+    <ul class="bg-white rounded-lg shadow-lg border border-slate-200 py-1 min-w-[80px]" role="menu" aria-label="Language options">
       {([lang, ...otherLangs] as const).map((l) => {
         const href = currentRoute ? getLocalizedPath(currentRoute.routeId, l, currentRoute.params) : path;
         return (
@@ -46,7 +53,7 @@ const otherLangs = languages.filter((l) => l !== lang);
               href={href}
               role="menuitem"
               class:list={[
-                'block px-3 py-1.5 text-sm text-slate-700 hover:text-navy-900 hover:bg-slate-50 transition-colors',
+                'block px-3 py-1.5 text-sm text-slate-700 hover:text-navy-900 hover:bg-slate-50 focus:text-navy-900 focus:bg-slate-50 transition-colors',
                 l === lang && 'font-semibold text-navy-900',
               ]}
               lang={l}
@@ -61,3 +68,57 @@ const otherLangs = languages.filter((l) => l !== lang);
     </ul>
   </div>
 </div>
+
+
+<script>
+  const switchers = document.querySelectorAll('[data-language-switcher]');
+
+  switchers.forEach((switcher) => {
+    const trigger = switcher.querySelector('[data-language-trigger]');
+    const menu = switcher.querySelector('[data-language-menu]');
+    const menuLinks = menu?.querySelectorAll('a');
+
+    if (!(trigger instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) return;
+
+    const setOpen = (isOpen: boolean, focusFirstItem = false) => {
+      switcher.classList.toggle('is-open', isOpen);
+      trigger.setAttribute('aria-expanded', String(isOpen));
+
+      if (isOpen && focusFirstItem && menuLinks?.[0] instanceof HTMLElement) {
+        menuLinks[0].focus();
+      }
+    };
+
+    trigger.addEventListener('click', () => {
+      const willOpen = trigger.getAttribute('aria-expanded') !== 'true';
+      setOpen(willOpen, willOpen);
+    });
+
+    switcher.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+
+    switcher.addEventListener('focusout', (event) => {
+      const nextTarget = event.relatedTarget;
+      if (!(nextTarget instanceof Node) || !switcher.contains(nextTarget)) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !switcher.contains(event.target)) {
+        setOpen(false);
+      }
+    });
+  });
+</script>
+
+<style>
+  [data-language-switcher].is-open [data-language-menu] {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
