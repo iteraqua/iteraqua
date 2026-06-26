@@ -16,7 +16,6 @@ export const routeMap = {
   projectDetail: { es: '/proyectos/[slug]', ca: '/ca/projectes/[slug]', en: '/en/projects/[slug]' },
   blog: { es: '/blog', ca: '/ca/blog', en: '/en/blog' },
   blogPost: { es: '/blog/[slug]', ca: '/ca/blog/[slug]', en: '/en/blog/[slug]' },
-  certifications: { es: '/certificaciones', ca: '/ca/certificacions', en: '/en/certifications' },
   contact: { es: '/contacto', ca: '/ca/contacte', en: '/en/contact' },
   privacy: { es: '/privacidad', ca: '/ca/privadesa', en: '/en/privacy' },
   cookies: { es: '/cookies', ca: '/ca/cookies', en: '/en/cookies' },

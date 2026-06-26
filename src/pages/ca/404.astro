@@ -1,15 +1,15 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import type { Language } from '@/i18n/utils';
-import { t, useTranslatedPath, getLangFromUrl } from '@/i18n/utils';
+import { t, useTranslatedPath } from '@/i18n/utils';
 
-const lang: Language = getLangFromUrl(Astro.url);
+const lang: Language = 'ca';
 const translatePath = useTranslatedPath(lang);
 ---
 
 <BaseLayout
-  title="Página no encontrada"
-  description="La página solicitada no existe"
+  title="Pàgina no trobada"
+  description="La pàgina sol·licitada no existeix"
   lang={lang}
   path="/404"
   image="/images/og-default.jpg"

@@ -46,7 +46,6 @@ const breadcrumbLabelKeys: Partial<Record<RouteId, string>> = {
   'services.underwaterInspections': 'nav.services_underwater_inspections',
   projects: 'nav.projects',
   blog: 'nav.blog',
-  certifications: 'nav.certifications',
   contact: 'nav.contact',
   privacy: 'legal.privacy_title',
   cookies: 'legal.cookies_title',
@@ -99,7 +98,6 @@ const allStructuredData = [...structuredData, ...(breadcrumbSchema ? [breadcrumb
 >
   {heroTitle && (
     <section class="gradient-navy relative overflow-hidden">
-      <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-5"></div>
       <div class="container-default relative py-16 md:py-20 lg:py-28">
         {normalizedBreadcrumbs.length > 0 && (
           <nav aria-label="Breadcrumb" class="mb-6">
