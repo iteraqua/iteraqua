@@ -7,7 +7,7 @@ export default defineConfig({
   site: 'https://iteraqua.github.io',
 
   // MUST end with slash
-  base: '/iteraqua/',
+  base: '/',
 
   output: 'static',
 
