@@ -11,12 +11,23 @@ const translatePath = useTranslatedPath(lang);
 ---
 
 <section class="relative overflow-hidden gradient-navy min-h-[85vh] flex items-center" aria-label="Hero">
+  <!-- Background image + overlay -->
   <div class="absolute inset-0">
     <div class="absolute inset-0 bg-gradient-to-b from-navy-950/50 to-navy-950/90 z-10"></div>
     <div class="absolute inset-0 bg-[url('/images/hero-maritime.jpg')] bg-cover bg-center bg-no-repeat"></div>
-    <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-[0.03] z-10"></div>
   </div>
 
+  <!-- Wave layer (FIXED: no background-repeat anymore) -->
+  <div class="absolute inset-0 overflow-hidden z-10 opacity-[0.03] pointer-events-none">
+    <img
+      src="/images/pattern-waves.svg"
+      class="w-full h-full object-cover"
+      alt=""
+      aria-hidden="true"
+    />
+  </div>
+
+  <!-- Content -->
   <div class="container-default relative z-20 py-20 md:py-28 lg:py-36">
     <div class="max-w-3xl">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-aqua-500/10 border border-aqua-500/20 text-aqua-400 text-sm font-medium mb-6 animate-fade-in">
@@ -39,6 +50,7 @@ const translatePath = useTranslatedPath(lang);
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
+
         <a href={translatePath('contact')} class="btn-outline-light text-base px-8 py-4">
           {t('hero.cta_contact', lang)}
         </a>
@@ -46,5 +58,6 @@ const translatePath = useTranslatedPath(lang);
     </div>
   </div>
 
+  <!-- Bottom fade -->
   <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-20"></div>
 </section>
