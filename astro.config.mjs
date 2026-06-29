@@ -4,10 +4,12 @@ import sitemap from '@astrojs/sitemap';
 import { fileURLToPath } from 'url';
 
 export default defineConfig({
-  site: 'https://iteraqua.io',
-  output: 'static',
+  site: 'https://iteraqua.github.io',
 
-  base: '/',
+  // MUST end with slash
+  base: '/iteraqua/',
+
+  output: 'static',
 
   build: {
     format: 'directory',
