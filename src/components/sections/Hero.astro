@@ -19,12 +19,8 @@ const translatePath = useTranslatedPath(lang);
 
   <!-- Wave layer (FIXED: no background-repeat anymore) -->
   <div class="absolute inset-0 overflow-hidden z-10 opacity-[0.03] pointer-events-none">
-    <img
-      src="/images/pattern-waves.svg"
-      class="w-full h-full object-cover"
-      alt=""
-      aria-hidden="true"
-    />
+    <img src={import.meta.env.BASE_URL + "/images/pattern-waves.svg"} class="w-full h-full object-cover alt="" aria-hidden="true"/>
+
   </div>
 
   <!-- Content -->
